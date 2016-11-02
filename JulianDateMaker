@@ -1,0 +1,29 @@
+package timemanager;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import java.time.*;
+import java.time.format.*;
+import java.util.*;
+
+public class JulianDateMaker implements RequestHandler<Object, Object> {
+	Map<String,String> converter; 
+
+    @Override
+    public Object handleRequest(Object input, Context context) {
+    		converter = (LinkedHashMap<String,String>)input;
+        context.getLogger().log("Input: " + input);
+        LocalDate daymonth = LocalDate.now().withDayOfMonth(Integer.valueOf(converter.get("day"))).withMonth(Integer.valueOf(converter.get("month")));
+        DateTimeFormatter toJulian =   DateTimeFormatter.ofPattern("DDD");
+        String julian = daymonth.format(toJulian);
+        
+        return julian;
+    }
+    
+   
+    
+    }
+
+
+
+
